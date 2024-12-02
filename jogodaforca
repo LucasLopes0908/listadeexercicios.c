@@ -1,0 +1,68 @@
+import random
+
+# Apresentação do jogo
+print("Bem-vindo ao Jogo da Forca!")
+print("Escolha um nível de dificuldade:")
+print("1. Fácil (8 tentativas, palavras curtas)")
+print("2. Médio (6 tentativas, palavras médias)")
+print("3. Difícil (4 tentativas, palavras longas)")
+
+# Escolha do nível
+nivel = input("Digite o número do nível escolhido: ")
+if nivel == "1":
+    palavras = ["gato", "bola", "casa", "lapis"]
+    tentativas = 8
+elif nivel == "2":
+    palavras = ["abacaxi", "guitarra", "planeta", "viagem"]
+    tentativas = 6
+elif nivel == "3":
+    palavras = ["crocodilo", "astronauta", "hipopotamo", "magistratura"]
+    tentativas = 4
+else:
+    print("Nível inválido. Iniciando no nível Fácil por padrão.")
+    palavras = ["gato", "bola", "casa", "lapis"]
+    tentativas = 8
+
+# Seleção da palavra e preparação do jogo
+palavra = random.choice(palavras)
+palavra_mostrada = ["_" for _ in palavra]
+letras_usadas = []
+
+print("\nA palavra é: " + " ".join(palavra_mostrada))
+
+# Loop principal do jogo
+while tentativas > 0 and "_" in palavra_mostrada:
+    print("\nTentativas restantes:", tentativas)
+    print("Letras já usadas:", " ".join(letras_usadas))
+    letra = input("Adivinhe uma letra: ").lower()
+
+    # Verifica se a letra é válida
+    if not letra.isalpha() or len(letra) != 1:
+        print("Por favor, insira apenas uma letra.")
+        continue
+
+    # Verifica se a letra já foi usada
+    if letra in letras_usadas:
+        print("Você já tentou essa letra. Tente outra.")
+        continue
+
+    letras_usadas.append(letra)
+
+    # Verifica se a letra está na palavra
+    if letra in palavra:
+        print("Boa! Letra correta.")
+        for i in range(len(palavra)):
+            if palavra[i] == letra:
+                palavra_mostrada[i] = letra
+    else:
+        print("Letra errada.")
+        tentativas -= 1
+
+    # Mostra o progresso da palavra
+    print("Palavra:", " ".join(palavra_mostrada))
+
+# Resultado final
+if "_" not in palavra_mostrada:
+    print("\nParabéns, você venceu! A palavra era:", palavra)
+else:
+    print("\nVocê perdeu! A palavra era:", palavra)
